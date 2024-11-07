@@ -286,10 +286,3 @@ body {
     font-weight: bold;
     background-color: green;
 }
-
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100%; /* A sidebar ocupa toda a largura */
-        height: auto; /* A altura vai ser ajustada conforme o conteúdo */
-    }    
-}
