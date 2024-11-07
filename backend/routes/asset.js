@@ -9,7 +9,7 @@ router.get('/', authMiddleware, async (req, res) => {
   try {
     const assets = await Asset.find();
     const totalAssets = assets.length;
-    const inMaintenance = assets.filter(asset => asset.status === 'Inativo').length;
+    const inMaintenance = assets.filter(asset => asset.status === 'maintenance').length;
     res.json({ assets, totalAssets, inMaintenance });
   } catch (err) {
     console.error('Erro ao buscar ativos:', err);
