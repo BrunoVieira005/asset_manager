@@ -10,7 +10,7 @@ const PORT = 3000;
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (origin === 'http://localhost:3000' || origin === 'https://assetmanager.vercel.app') {
+    if (origin === process.env.FRONTEND_URL) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -20,8 +20,9 @@ const corsOptions = {
   allowedHeaders: 'Content-Type,Authorization'
 };
 
-app.use(cors(corsOptions));
 
+app.use(cors(corsOptions));
+ao
 app.use(express.json());
 
 // Conectar ao MongoDB
