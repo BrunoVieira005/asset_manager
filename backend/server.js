@@ -38,8 +38,8 @@ mongoose.connect(mongoURI, {
 });
 
 // Usar rotas
-app.use('/api/auth', authRoutes);
-app.use('/api/assets', assetRoutes);
+app.use('/api/auth', auth);
+app.use('/api/assets', asset);
 
 // Iniciar o servidor
 app.listen(PORT, () => {
