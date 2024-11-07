@@ -10,7 +10,7 @@ const PORT = 3000;
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (origin === process.env.FRONTEND_URL) {
+    if (origin === 'https://assetmanager.vercel.app') {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
