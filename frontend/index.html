@@ -89,12 +89,17 @@
                 // Função para carregar os dados de equipamentos e atualizar a interface
                 async function loadEquipmentData() {
                     const token = localStorage.getItem('token');
+                    if (!token) {
+                        // Se o token não estiver presente, redireciona para a página de login
+                        window.location.href = 'login.html';
+                    }
+
                     const options = {
                         headers: { 'Authorization': `Bearer ${token}` }
                     };
 
                     try {
-                        const equipmentRes = await fetch('https://assetmanager.vercel.app/api/assets', options);
+                        const equipmentRes = await fetch(`${process.env.FRONTEND_URL}/api/assets`, options);
 
                         if (!equipmentRes.ok) {
                             throw new Error('Erro ao carregar dados');
@@ -141,7 +146,7 @@
                     const token = localStorage.getItem('token');
 
                     try {
-                        const res = await fetch('https://assetmanager.vercel.app/api/assets', {
+                        const res = await fetch(`${process.env.FRONTEND_URL}/api/assets`, {
                             method: 'POST',
                             headers: {
                                 'Authorization': `Bearer ${token}`,
@@ -166,7 +171,7 @@
                 async function removeAsset(id) {
                     const token = localStorage.getItem('token');
                     try {
-                        const res = await fetch(`https://assetmanager.vercel.app/api/assets/${id}`, {
+                        const res = await fetch(`${process.env.FRONTEND_URL}/api/assets/${id}`, {
                             method: 'DELETE',
                             headers: {
                                 'Authorization': `Bearer ${token}`
