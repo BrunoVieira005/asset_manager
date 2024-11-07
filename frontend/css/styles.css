@@ -8,17 +8,13 @@
 body {
     display: flex;
     background-color: #f4f4f9;
-    min-height: 100vh;
-    margin: 0;
-    flex-shrink: 0; 
+    min-height: 100vh; 
 }
 
 .container {
     display: flex;
     width: 100%;
     min-height: 100vh; 
-    margin: 0;
-    flex-shrink: 0;
 }
 
 .main-content {
