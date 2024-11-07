@@ -288,10 +288,6 @@ body {
 }
 
 @media (max-width: 768px) {
-    .container {
-        flex-direction: column; /* Faz com que a sidebar e o conteúdo fiquem em pilha */
-    }
-
     .sidebar {
         width: 100%; /* A sidebar ocupa toda a largura */
         height: auto; /* A altura vai ser ajustada conforme o conteúdo */
