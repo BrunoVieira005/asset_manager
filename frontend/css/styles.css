@@ -25,7 +25,9 @@ body {
     flex: 1;
     padding: 20px;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: auto; 
 }
 
 .sidebar {
@@ -283,4 +285,19 @@ body {
     font-size: 0.9rem; /* Tamanho de fonte para botões */
     font-weight: bold;
     background-color: green;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Faz com que a sidebar e o conteúdo fiquem em pilha */
+    }
+
+    .sidebar {
+        width: 100%; /* A sidebar ocupa toda a largura */
+        height: auto; /* A altura vai ser ajustada conforme o conteúdo */
+    }
+
+    .main-content {
+        width: 100%; /* O conteúdo ocupa toda a largura da tela */
+    }
 }
