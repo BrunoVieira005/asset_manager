@@ -41,7 +41,7 @@
                     <input type="date" id="asset-acquisition-date" disabled>
 
                     <label>Custo:</label>
-                    <input type="number" id="asset-cost" disabled>
+                    <input type="text" id="asset-cost" disabled>
 
                     <label>Expectativa de Vida (em anos):</label>
                     <input type="number" id="asset-life-expectancy" disabled>
@@ -67,6 +67,14 @@
     </div>
 
     <script>
+        // Função para formatar o valor em Reais
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+            }).format(value);
+        }
+
         // Carregar e exibir o email do usuário
         document.addEventListener('DOMContentLoaded', async () => {
             const email = localStorage.getItem('email') || 'Usuário';
@@ -105,7 +113,10 @@
                 document.getElementById('asset-id').value = asset._id;
                 document.getElementById('asset-name').value = asset.name;
                 document.getElementById('asset-acquisition-date').value = asset.acquisitionDate;
-                document.getElementById('asset-cost').value = asset.cost;
+                
+                // Formatar o custo no formato R$
+                document.getElementById('asset-cost').value = formatCurrency(asset.cost);
+
                 document.getElementById('asset-life-expectancy').value = asset.lifeExpectancy;
                 document.getElementById('asset-status').value = asset.status;
                 document.getElementById('asset-qr-code').src = asset.qrCode;
@@ -139,7 +150,7 @@
             const assetId = document.getElementById('asset-id').value;
             const name = document.getElementById('asset-name').value;
             const acquisitionDate = document.getElementById('asset-acquisition-date').value;
-            const cost = document.getElementById('asset-cost').value;
+            const cost = document.getElementById('asset-cost').value.replace('R$', '').replace('.', '').replace(',', '.');
             const lifeExpectancy = document.getElementById('asset-life-expectancy').value;
             const status = document.getElementById('asset-status').value;
             const token = localStorage.getItem('token');
@@ -177,8 +188,7 @@
             }
         }
 
-
-    // Função para atualizar o status do ativo
+        // Função para atualizar o status do ativo
         async function updateStatus() {
             const id = document.getElementById('asset-id').value;
             const status = document.getElementById('asset-status').value;
@@ -204,7 +214,6 @@
                 console.error('Erro ao atualizar status do ativo:', error);
             }
         }
-
 
         // Função para remover o ativo
         async function removeAsset() {
