@@ -94,7 +94,7 @@
                     };
 
                     try {
-                        const equipmentRes = await fetch('http://localhost:3000/api/assets', options);
+                        const equipmentRes = await fetch('https://assetmanager.vercel.app/api/assets', options);
 
                         if (!equipmentRes.ok) {
                             throw new Error('Erro ao carregar dados');
@@ -141,7 +141,7 @@
                     const token = localStorage.getItem('token');
 
                     try {
-                        const res = await fetch('http://localhost:3000/api/assets', {
+                        const res = await fetch('https://assetmanager.vercel.app/api/assets', {
                             method: 'POST',
                             headers: {
                                 'Authorization': `Bearer ${token}`,
@@ -166,7 +166,7 @@
                 async function removeAsset(id) {
                     const token = localStorage.getItem('token');
                     try {
-                        const res = await fetch(`http://localhost:3000/api/assets/${id}`, {
+                        const res = await fetch(`https://assetmanager.vercel.app/api/assets/${id}`, {
                             method: 'DELETE',
                             headers: {
                                 'Authorization': `Bearer ${token}`
