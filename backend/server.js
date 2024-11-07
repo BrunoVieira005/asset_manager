@@ -10,7 +10,6 @@ const PORT = 3000;
 
 // Configuração do CORS para produção
 const allowedOrigins = [
-  'http://localhost:3000', // Se você estiver testando localmente
   'https://assetmanager.vercel.app/', // URL do seu frontend no Vercel
 ];
 
