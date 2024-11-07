@@ -291,9 +291,5 @@ body {
     .sidebar {
         width: 100%; /* A sidebar ocupa toda a largura */
         height: auto; /* A altura vai ser ajustada conforme o conteúdo */
-    }
-
-    .main-content {
-        width: 100%; /* O conteúdo ocupa toda a largura da tela */
-    }
+    }    
 }
