@@ -8,20 +8,19 @@ require('dotenv').config();
 const app = express();
 const PORT = 3000;
 
-// Configuração do CORS para produção
-const allowedOrigins = [
-  'https://assetmanager.vercel.app/', // URL do seu frontend no Vercel
-];
-
-const options = {
+const corsOptions = {
   origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    if (origin === 'http://localhost:3000' || origin === 'https://assetmanager.vercel.app') {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
 };
+
+app.use(cors(corsOptions));
 
 app.use(cors(options));
 
