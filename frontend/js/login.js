@@ -12,8 +12,8 @@ async function loginUser() {
         const textResponse = await response.text(); // Leitura como texto
         console.log("Resposta do servidor:", textResponse); // Verifique o que está sendo retornado
 
-        // Tentando analisar o JSON, caso a resposta seja um JSON válido
         let data;
+        // Tentando analisar o JSON, caso a resposta seja um JSON válido
         try {
             data = JSON.parse(textResponse);
         } catch (err) {
@@ -22,18 +22,21 @@ async function loginUser() {
             return;
         }
 
-        if (response.ok) {
-            // Armazena o token e o email no localStorage
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('email', data.email);
-
-            alert(data.message || "Login bem-sucedido!"); // Mensagem de sucesso
-            
-            // Redireciona o usuário para a página inicial ou dashboard após o login
-            window.location.href = 'index.html'; 
-        } else {
-            alert(data.message || "Erro ao fazer login"); // Mensagem de erro
+        // Se a resposta do servidor for um erro (status diferente de 200-299)
+        if (!response.ok) {
+            alert(data.message || "Erro ao fazer login: " + response.status); // Mensagem de erro
+            return;
         }
+
+        // Se a resposta for bem-sucedida
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('email', data.email);
+
+        alert(data.message || "Login bem-sucedido!"); // Mensagem de sucesso
+
+        // Redireciona o usuário para a página inicial ou dashboard após o login
+        window.location.href = 'index.html'; 
+
     } catch (error) {
         console.error("Erro:", error);
         alert("Erro ao fazer login");
