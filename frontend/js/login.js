@@ -1,44 +1,28 @@
-async function loginUser() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    try {
-        const response = await fetch('https://assetmanager.vercel.app/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
-
-        const textResponse = await response.text(); // Leitura como texto
-        console.log("Resposta do servidor:", textResponse); // Verifique o que está sendo retornado
-
-        let data;
-        // Tentando analisar o JSON, caso a resposta seja um JSON válido
-        try {
-            data = JSON.parse(textResponse);
-        } catch (err) {
-            console.error("Erro ao parsear JSON:", err);
-            alert("Resposta do servidor não é JSON válido.");
-            return;
-        }
-
-        // Se a resposta do servidor for um erro (status diferente de 200-299)
+function loginUser() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+  
+    fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then(response => {
         if (!response.ok) {
-            alert(data.message || "Erro ao fazer login: " + response.status); // Mensagem de erro
-            return;
+          throw new Error('Falha no login: ' + response.statusText);
         }
-
-        // Se a resposta for bem-sucedida
+        return response.json();
+      })
+      .then(data => {
+        console.log("Login bem-sucedido", data);
+        // Armazenar token ou redirecionar, por exemplo
         localStorage.setItem('token', data.token);
-        localStorage.setItem('email', data.email);
-
-        alert(data.message || "Login bem-sucedido!"); // Mensagem de sucesso
-
-        // Redireciona o usuário para a página inicial ou dashboard após o login
-        window.location.href = 'index.html'; 
-
-    } catch (error) {
-        console.error("Erro:", error);
-        alert("Erro ao fazer login");
-    }
-}
+        window.location.href = 'index.html';  // Exemplo de redirecionamento
+      })
+      .catch(error => {
+        console.error("Erro ao tentar logar", error);
+        alert("Erro: " + error.message);
+      });
+  }  

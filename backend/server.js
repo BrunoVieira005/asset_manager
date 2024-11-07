@@ -26,10 +26,8 @@ app.use(express.json());
 
 // Conectar ao MongoDB
 const mongoURI = 'mongodb+srv://camilgriloramos:activos123@activos.p2xqg.mongodb.net/';
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(mongoURI)
+
 .then(() => {
   console.log('Conectado ao MongoDB com sucesso!');
 })
@@ -38,8 +36,8 @@ mongoose.connect(mongoURI, {
 });
 
 // Usar rotas
-app.use('/api/auth', auth);
-app.use('/api/assets', asset);
+app.use('/api/auth', authRoutes);
+app.use('/api/assets', assetRoutes);
 
 // Iniciar o servidor
 app.listen(PORT, () => {

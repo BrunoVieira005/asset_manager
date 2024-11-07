@@ -10,6 +10,11 @@ router.post('/register', async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ message: 'Este e-mail já está em uso.' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ email, password: hashedPassword });
 
@@ -21,6 +26,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
+
 // Login
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -28,16 +34,25 @@ router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({ email });
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ message: 'Credenciais inválidas' });
+    if (!user) {
+      return res.status(401).json({ message: 'Usuário não encontrado' });
     }
 
-    // Usa o JWT_SECRET do arquivo .env
+    // Verifica se a senha está correta
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Senha inválida' });
+    }
+
+    // Gera o JWT
     const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token, email: user.email });
+
+    // Retorna o token e o email
+    res.status(200).json({ token, email: user.email });
+    
   } catch (error) {
     console.error('Erro ao fazer login:', error);
-    res.status(500).json({ message: 'Erro ao fazer login' });
+    res.status(500).json({ message: 'Erro interno do servidor' });
   }
 });
 
