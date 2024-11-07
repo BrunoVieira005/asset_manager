@@ -9,10 +9,20 @@ async function loginUser() {
             body: JSON.stringify({ email, password })
         });
 
-        // Verifique se a resposta foi bem-sucedida (status 2xx)
-        if (response.ok) {
-            const data = await response.json();  // Somente faz parse do JSON se a resposta for bem-sucedida
+        const textResponse = await response.text(); // Leitura como texto
+        console.log("Resposta do servidor:", textResponse); // Verifique o que está sendo retornado
 
+        // Tentando analisar o JSON, caso a resposta seja um JSON válido
+        let data;
+        try {
+            data = JSON.parse(textResponse);
+        } catch (err) {
+            console.error("Erro ao parsear JSON:", err);
+            alert("Resposta do servidor não é JSON válido.");
+            return;
+        }
+
+        if (response.ok) {
             // Armazena o token e o email no localStorage
             localStorage.setItem('token', data.token);
             localStorage.setItem('email', data.email);
@@ -22,11 +32,10 @@ async function loginUser() {
             // Redireciona o usuário para a página inicial ou dashboard após o login
             window.location.href = 'index.html'; 
         } else {
-            const data = await response.json();  // Tenta obter o JSON da resposta de erro
             alert(data.message || "Erro ao fazer login"); // Mensagem de erro
         }
     } catch (error) {
         console.error("Erro:", error);
-        alert("Erro ao fazer login: " + error.message);  // Exibe o erro detalhado
+        alert("Erro ao fazer login");
     }
 }
