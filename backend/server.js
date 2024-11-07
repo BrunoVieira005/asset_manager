@@ -9,7 +9,12 @@ const app = express();
 const PORT = 3000;
 
 // Configurações do middleware
-app.use(cors());
+app.use(cors({
+  origin: 'assetmanager.vercel.app', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Permite os métodos necessários para o seu sistema
+  allowedHeaders: ['Content-Type', 'Authorization'] // Permite apenas os cabeçalhos necessários
+}));
+
 app.use(express.json());
 
 // Conectar ao MongoDB
