@@ -6,23 +6,27 @@ const assetRoutes = require('./routes/asset');
 require('dotenv').config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
+// Configurações do CORS para permitir apenas o domínio de produção
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (origin === 'https://assetmanager.vercel.app') {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: 'https://assetmanager.vercel.app',
   methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization'
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 
-
+// Middleware de CORS
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Rotas
+app.use('/api/auth', authRoutes);
+app.use('/api/assets', assetRoutes);
+
+// Iniciar o servidor
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
 
 // Conectar ao MongoDB
 const mongoURI = 'mongodb+srv://camilgriloramos:activos123@activos.p2xqg.mongodb.net/';
