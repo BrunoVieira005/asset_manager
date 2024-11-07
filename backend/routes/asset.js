@@ -7,11 +7,8 @@ const QRCode = require('qrcode');
 // Obter todos os ativos e contagem
 router.get('/', authMiddleware, async (req, res) => {
   try {
-    console.log('Iniciando busca de ativos...');
     const assets = await Asset.find();
     const totalAssets = assets.length;
-    console.log('Ativos encontrados:', totalAssets);
-
     const inMaintenance = assets.filter(asset => asset.status === 'Inativo').length;
     res.json({ assets, totalAssets, inMaintenance });
   } catch (err) {
